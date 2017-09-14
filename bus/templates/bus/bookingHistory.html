@@ -1,0 +1,49 @@
+{% extends 'bus/base.html' %}
+
+{% block body %}
+<p><strong>{{request.user.username }} here is your booking history</strong></p>
+
+<form action="{%url 'bus:cancel'%}" method="post">{%csrf_token%}
+    <input type="hidden" name="rid" value="{{pk}}">
+    {%if msg == "yes"%}
+        <table style="width:80%" border="1px solid black" >
+            <tr>
+                <th>Bus_name</th>
+                <th>Depart_Location</th>
+                <th>Arrival_Location</th>
+                <th>Depart_Date</th>
+                <th>Depart_Time</th>
+                <th>Arrival_Date</th>
+                <th>Arrival_Time</th>
+                <th>Total_Seats_booked</th>
+                <th>Total_Ticket_cost</th>
+
+            </tr>
+            {%for sbus in bbus%}
+                <tr>
+                    <td>{{sbus.Bus_name}}</td>
+                    <td>{{sbus.Depart_Location}}</td>
+                    <td>{{sbus.Arrival_Location}}</td>
+                    <td>{{sbus.Depart_Date}}</td>
+                    <td>{{sbus.Depart_Time}}</td>
+                    <td>{{sbus.Arrival_Date}}</td>
+                    <td>{{sbus.Arrival_Time}}</td>
+                    <td>{{seats}}</td>
+                    <td>{{cost}}</td>
+                    <td><input type="submit" id="bus{{forloop.counter}}" name="bus" value="Cancel Reservation"/><td>
+                </tr>
+            {%endfor%}
+        </table>
+    {%endif%}
+
+    {%if msg == "No Record Found" %}
+        <p><strong>{{msg}}</strong></p>
+    {%endif%}
+
+    {%if msg == "Selected Record is Deleted" %}
+        <p><strong>{{msg}}</strong></p>
+    {%endif%}
+
+</form>
+
+{% endblock %}

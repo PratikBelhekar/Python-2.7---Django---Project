@@ -1,0 +1,62 @@
+
+{% extends 'bus/base.html' %}
+
+{% block body %}
+<h2>Search For A Bus</h2>
+<p><strong>Welcome {{request.user.username}}</strong></p>
+<form action="{% url 'bus:lsearchResult'  %}" method="post">{%csrf_token%}
+    <select name="departure">
+        <option disabled selected hidden>Select Departure City</option>
+        {%for bustable in location%}
+            <option>{{ bustable.Depart_Location}}</option>
+        {%endfor%}
+    </select>
+
+    <select name="arrival">
+        <option  disabled selected hidden>Select Arrival City</option>
+        {%for bustable in arrival%}
+            <option>{{ bustable.Arrival_Location}}</option>
+        {%endfor%}
+    </select>
+
+    <input type="submit" value="Search">
+</form>
+
+<form action="{% url 'bus:book' %}" method="post" id="bookform">{%csrf_token%}
+    {% if msg == "ok" %}
+        `<table style="width:80%" border="1px solid black" >
+            <tr>
+                <th>Bus_name</th>
+                <th>Depart_Location</th>
+                <th>Arrival_Location</th>
+                <th>Depart_Date</th>
+                <th>Depart_Time</th>
+                <th>Arrival_Date</th>
+                <th>Arrival_Time</th>
+                <th>Total_Seats</th>
+                <th>Ticket_cost</th>
+                <th>Book</th>
+            </tr>
+            {%for sbus in sbus%}
+                <tr>
+                    <td>{{sbus.Bus_name}}</td>
+                    <td>{{sbus.Depart_Location}}</td>
+                    <td>{{sbus.Arrival_Location}}</td>
+                    <td>{{sbus.Depart_Date}}</td>
+                    <td>{{sbus.Depart_Time}}</td>
+                    <td>{{sbus.Arrival_Date}}</td>
+                    <td>{{sbus.Arrival_Time}}</td>
+                    <td>{{sbus.Total_Seats}}</td>
+                    <td>{{sbus.Ticket_cost}}</td>
+                    <td><input type="radio" id="bus{{forloop.counter}}" name="bus" value="{{sbus.id}}"/></td>
+                </tr>
+            {%endfor%}
+        </table>
+        <input type="submit" value="Book" form="bookform" />
+
+    {%endif%}
+    {%if msg == "Not ok"%}
+        <p><strong>Please Select Valid Destination and Arrival</strong></p>
+    {%endif%}
+</form>
+{% endblock %}
