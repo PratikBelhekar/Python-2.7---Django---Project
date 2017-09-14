@@ -18,8 +18,8 @@ The project is a web based program for Bus reservation. This program will allow 
       Enter Travels details. Show total amount to be paid at departure
       Download Ticket
       Cancel Ticket
-      System 
-      Generate ticket 
+    
+    System 
       Update Available seats after travels makes booking/cancelation
 
 
